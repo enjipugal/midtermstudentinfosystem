@@ -1,6 +1,6 @@
 # Student Information System
 
-A Python-based Student Information System developed as a midterm project to demonstrate CRUD operations, JSON data persistence, modular architecture, error handling, logging, and GitHub version control.
+A Python-based Student Information System developed as a midterm project to demonstrate CRUD operations, JSON data persistence, modular architecture, configuration management, error handling, logging, unit testing, and GitHub version control.
 
 ## Features
 
@@ -9,6 +9,7 @@ A Python-based Student Information System developed as a midterm project to demo
 - View a student by Student ID
 - Update student information
 - Delete student records
+- Search students by Student ID, name, email, or course
 - Store student data using JSON
 - 7-digit Student ID validation
 - Duplicate Student ID prevention
@@ -16,6 +17,7 @@ A Python-based Student Information System developed as a midterm project to demo
 - Application logging
 - Unit testing
 - Modular project structure
+- Git branching and version control
 
 ## Project Structure
 
@@ -29,6 +31,7 @@ midtermstudentinfosystem/
 │   │   ├── __init__.py
 │   │   └── student_service.py
 │   ├── utils/
+│   │   ├── __init__.py
 │   │   ├── config.py
 │   │   └── logger.py
 │   ├── __init__.py
