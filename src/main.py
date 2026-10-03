@@ -1,5 +1,7 @@
 import logging
+
 from src.services.student_service import StudentService
+
 
 # Setup logging
 logging.basicConfig(
@@ -25,7 +27,8 @@ class StudentInformationSystem:
         print("3. View Student by ID")
         print("4. Update Student")
         print("5. Delete Student")
-        print("6. Exit")
+        print("6. Search Student")
+        print("7. Exit")
 
     def add_student(self):
         print("\n--- Add New Student ---")
@@ -45,7 +48,9 @@ class StudentInformationSystem:
         }
 
         try:
-            student = self.student_service.add_student(student_data)
+            student = self.student_service.add_student(
+                student_data
+            )
 
             self.logger.info(
                 f"Added student: {student['student_id']}"
@@ -57,7 +62,9 @@ class StudentInformationSystem:
             )
 
         except Exception as e:
-            self.logger.error(f"Error adding student: {e}")
+            self.logger.error(
+                f"Error adding student: {e}"
+            )
             print(f"Error adding student: {e}")
 
     def view_all_students(self):
@@ -83,7 +90,9 @@ class StudentInformationSystem:
 
         student_id = input("Enter Student ID: ")
 
-        student = self.student_service.get_student(student_id)
+        student = self.student_service.get_student(
+            student_id
+        )
 
         if student:
             print("\nStudent Details:")
@@ -103,17 +112,31 @@ class StudentInformationSystem:
 
         student_id = input("Enter Student ID: ")
 
-        student = self.student_service.get_student(student_id)
+        student = self.student_service.get_student(
+            student_id
+        )
 
         if not student:
             print("Student not found.")
             return
 
-        print("\nLeave a field blank to keep the current value.")
+        print(
+            "\nLeave a field blank to keep "
+            "the current value."
+        )
 
-        name = input(f"Name [{student['name']}]: ")
-        email = input(f"Email [{student['email']}]: ")
-        course = input(f"Course [{student['course']}]: ")
+        name = input(
+            f"Name [{student['name']}]: "
+        )
+
+        email = input(
+            f"Email [{student['email']}]: "
+        )
+
+        course = input(
+            f"Course [{student['course']}]: "
+        )
+
         year_level = input(
             f"Year Level [{student['year_level']}]: "
         )
@@ -137,9 +160,11 @@ class StudentInformationSystem:
             return
 
         try:
-            updated_student = self.student_service.update_student(
-                student_id,
-                update_data
+            updated_student = (
+                self.student_service.update_student(
+                    student_id,
+                    update_data
+                )
             )
 
             if updated_student:
@@ -147,7 +172,9 @@ class StudentInformationSystem:
                     f"Updated student: {student_id}"
                 )
 
-                print("Student updated successfully.")
+                print(
+                    "Student updated successfully."
+                )
             else:
                 print("Student not found.")
 
@@ -155,22 +182,28 @@ class StudentInformationSystem:
             self.logger.error(
                 f"Error updating student: {e}"
             )
-            print(f"Error updating student: {e}")
+            print(
+                f"Error updating student: {e}"
+            )
 
     def delete_student(self):
         print("\n--- Delete Student ---")
 
         student_id = input("Enter Student ID: ")
 
-        student = self.student_service.get_student(student_id)
+        student = self.student_service.get_student(
+            student_id
+        )
 
         if not student:
             print("Student not found.")
             return
 
         print(f"Student: {student['name']}")
+
         confirmation = input(
-            "Are you sure you want to delete this student? (y/n): "
+            "Are you sure you want to delete "
+            "this student? (y/n): "
         )
 
         if confirmation.lower() != "y":
@@ -178,14 +211,20 @@ class StudentInformationSystem:
             return
 
         try:
-            deleted = self.student_service.delete_student(student_id)
+            deleted = (
+                self.student_service.delete_student(
+                    student_id
+                )
+            )
 
             if deleted:
                 self.logger.info(
                     f"Deleted student: {student_id}"
                 )
 
-                print("Student deleted successfully.")
+                print(
+                    "Student deleted successfully."
+                )
             else:
                 print("Student not found.")
 
@@ -193,13 +232,46 @@ class StudentInformationSystem:
             self.logger.error(
                 f"Error deleting student: {e}"
             )
-            print(f"Error deleting student: {e}")
+            print(
+                f"Error deleting student: {e}"
+            )
+
+    def search_student(self):
+        print("\n--- Search Student ---")
+
+        search_term = input(
+            "Enter Student ID, Name, Email, "
+            "or Course: "
+        )
+
+        students = (
+            self.student_service.search_students(
+                search_term
+            )
+        )
+
+        if not students:
+            print("No students found.")
+            return
+
+        print("\n--- Search Results ---")
+
+        for student in students:
+            print(
+                f"ID: {student['student_id']}, "
+                f"Name: {student['name']}, "
+                f"Email: {student['email']}, "
+                f"Course: {student['course']}, "
+                f"Year Level: {student['year_level']}"
+            )
 
     def run(self):
         while True:
             self.display_menu()
 
-            choice = input("Enter your choice (1-6): ")
+            choice = input(
+                "Enter your choice (1-7): "
+            )
 
             if choice == "1":
                 self.add_student()
@@ -217,13 +289,19 @@ class StudentInformationSystem:
                 self.delete_student()
 
             elif choice == "6":
+                self.search_student()
+
+            elif choice == "7":
                 print("Goodbye!")
                 break
 
             else:
-                print("Invalid choice. Please try again.")
+                print(
+                    "Invalid choice. Please try again."
+                )
 
 
 if __name__ == "__main__":
     app = StudentInformationSystem()
     app.run()
+    

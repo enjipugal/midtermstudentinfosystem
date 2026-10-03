@@ -34,14 +34,22 @@ class StudentService:
     def add_student(self, student_data):
         students = self._load_students()
 
-        student_id = str(student_data.get('student_id', '')).strip()
+        student_id = str(
+            student_data.get('student_id', '')
+        ).strip()
 
         if not student_id.isdigit() or len(student_id) != 7:
-            raise ValueError("Student number must be exactly 7 digits.")
+            raise ValueError(
+                "Student number must be exactly 7 digits."
+            )
 
-        # Prevent duplicate student numbers
-        if any(student['student_id'] == student_id for student in students):
-            raise ValueError("Student number already exists.")
+        if any(
+            student['student_id'] == student_id
+            for student in students
+        ):
+            raise ValueError(
+                "Student number already exists."
+            )
 
         student_data['student_id'] = student_id
 
@@ -63,6 +71,24 @@ class StudentService:
                 return student
 
         return None
+
+    def search_students(self, search_term):
+        students = self._load_students()
+
+        search_term = str(search_term).lower().strip()
+
+        results = []
+
+        for student in students:
+            if (
+                search_term in student['student_id'].lower()
+                or search_term in student['name'].lower()
+                or search_term in student['email'].lower()
+                or search_term in student['course'].lower()
+            ):
+                results.append(student)
+
+        return results
 
     def update_student(self, student_id, update_data):
         students = self._load_students()
@@ -91,4 +117,4 @@ class StudentService:
         self._save_students(students)
 
         return len(students) != original_count
-    
+ 
